@@ -26,7 +26,9 @@ class App extends Component {
         <hr />
         <ToDoList
           items={state.todoList}
-          onRemove={TodoActions.remove}
+          onRemove={(id) => {
+            dispatch(TodoActions.remove(id));
+          }}
           onUpdate={TodoActions.update}
         />
       </div>
