@@ -1,38 +1,40 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
 
-import ToDoList from './views/components/ToDoList';
-import NewToDoItem from './views/components/NewToDoItem';
+import ToDoList from "./views/components/ToDoList";
+import NewToDoItem from "./views/components/NewToDoItem";
 
-import TodoActions from './data/actions/TodoActions';
-import TodoStore from './data/stores/TodoStore';
+import TodoActions from "./data/actions/TodoActions";
+import TodoStore from "./data/stores/TodoStore";
 
-async function getTodoState(){
+import { connect } from "react-redux";
+
+async function getTodoState() {
   return {
-    todoList: await TodoStore.getAll()
-  }
+    todoList: await TodoStore.getAll(),
+  };
 }
 
 class App extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      todoList: []
-    }
+      todoList: [],
+    };
 
     this._onChange = this._onChange.bind(this);
     this._onChange();
   }
 
-  componentDidMount(){
-    TodoStore.addChangeListener(this._onChange);  
+  componentDidMount() {
+    TodoStore.addChangeListener(this._onChange);
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     TodoStore.removeChangeListener(this._onChange);
   }
 
-  async _onChange(){
+  async _onChange() {
     this.setState(await getTodoState());
   }
 
@@ -42,12 +44,22 @@ class App extends Component {
       <div className="App">
         <NewToDoItem onAdd={TodoActions.create} />
         <hr />
-        <button className="tw-btn" onClick={TodoActions.clear} >Limpar</button>
+        <button className="tw-btn" onClick={TodoActions.clear}>
+          Limpar
+        </button>
         <hr />
-        <ToDoList items={state.todoList} onRemove={TodoActions.remove} onUpdate={TodoActions.update} />
+        <ToDoList
+          items={state.todoList}
+          onRemove={TodoActions.remove}
+          onUpdate={TodoActions.update}
+        />
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  todoList: state.todoList,
+});
+
+export default connect(mapStateToProps)(App);
