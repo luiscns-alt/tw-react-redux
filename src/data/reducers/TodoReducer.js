@@ -5,7 +5,11 @@ const TodoReducer = (todoList = [], action) => {
     case TodoConstants.TODO_CREATE:
       return [
         ...todoList,
-        { id: Date.now(), isChecked: false, description: action.description },
+        {
+          id: Date.now(),
+          isChecked: false,
+          description: action.description,
+        },
       ];
     case TodoConstants.TODO_REMOVE:
       //return todoList.filter(item => item.id !== action.id);
@@ -14,6 +18,13 @@ const TodoReducer = (todoList = [], action) => {
         ...todoList.slice(0, itemIndex),
         ...todoList.slice(itemIndex + 1),
       ];
+    case TodoConstants.TODO_UPDATE:
+      return todoList.map((item) => {
+        if (item.id === action.item.id) {
+          return action.item;
+        }
+        return item;
+      });
     case TodoConstants.TODO_CLEAR:
       return todoList.filter((item) => !item.isChecked);
     default:

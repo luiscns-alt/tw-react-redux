@@ -5,7 +5,6 @@ import ToDoList from "./views/components/ToDoList";
 import NewToDoItem from "./views/components/NewToDoItem";
 
 import * as TodoActions from "./data/actions/TodoActions";
-
 import { connect } from "react-redux";
 
 class App extends Component {
@@ -34,7 +33,9 @@ class App extends Component {
           onRemove={(id) => {
             dispatch(TodoActions.remove(id));
           }}
-          onUpdate={TodoActions.update}
+          onUpdate={(item) => {
+            dispatch(TodoActions.update(item));
+          }}
         />
       </div>
     );
@@ -42,7 +43,7 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  todoList: state.todoList,
+  todoList: state.TodoReducer,
 });
 
 export default connect(mapStateToProps)(App);
