@@ -2,9 +2,9 @@ import * as TodoConstants from '../actions/TodoActions';
 
 const TodoReducer = (todoList = [], action) => {
     switch (action.type) {
-        case TodoConstants.TODO_LIST:
+        case TodoConstants.TODO_LIST_RESPONSE:
             return action.todoList;
-        case TodoConstants.TODO_CREATE:
+        case TodoConstants.TODO_CREATE_RESPONSE:
             return [...todoList, action.newItem];
         case TodoConstants.TODO_REMOVE:
             //return todoList.filter(item => item.id !== action.id);
@@ -22,8 +22,6 @@ const TodoReducer = (todoList = [], action) => {
                 }
                 return item;
             });
-        case TodoConstants.TODO_CLEAR:
-            return todoList.filter((item) => !item.isChecked);
         default:
             return todoList;
     }
