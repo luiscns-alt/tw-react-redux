@@ -12,6 +12,18 @@ function* watchListAll() {
     yield takeLatest(TodoActions.TODO_LIST, listAll);
 }
 
+function* create({ description }) {
+    const newItem = yield TodoService.create({
+        description,
+        isChecked: false,
+    });
+    yield put(TodoActions.createResponse(newItem));
+}
+
+function* watchCreate() {
+    yield takeEvery(TodoActions.TODO_CREATE, create);
+}
+
 export default function* TodoSaga() {
-    yield all([watchListAll()]);
+    yield all([watchListAll(), watchCreate()]);
 }
