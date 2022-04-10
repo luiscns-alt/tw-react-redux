@@ -5,14 +5,7 @@ const TodoReducer = (todoList = [], action) => {
         case TodoConstants.TODO_LIST:
             return action.todoList;
         case TodoConstants.TODO_CREATE:
-            return [
-                ...todoList,
-                {
-                    id: Date.now(),
-                    isChecked: false,
-                    description: action.description,
-                },
-            ];
+            return [...todoList, action.newItem];
         case TodoConstants.TODO_REMOVE:
             //return todoList.filter(item => item.id !== action.id);
             const itemIndex = todoList.findIndex(
